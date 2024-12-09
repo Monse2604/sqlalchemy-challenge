@@ -1,21 +1,22 @@
-# Import the dependencies.
+ # Import the dependencies.
 from flask import Flask, jsonify
 from sqlalchemy import create_engine, func
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 import datetime as dt
-import os  # Import for debugging file paths
+import os
 
 #################################################
 # Database Setup
 #################################################
 
-# Debugging: Check current directory and file existence
-print("Current Directory:", os.getcwd())
-print("File exists:", os.path.exists("Resources/hawaii.sqlite"))
+# Get the absolute path to the SQLite database
+db_path = os.path.join(os.getcwd(), "Resources", "hawaii.sqlite")
+print("Database Path:", db_path)
+print("File exists:", os.path.exists(db_path))
 
 # Create engine to the SQLite database
-engine = create_engine("sqlite:///Resources/hawaii.sqlite")
+engine = create_engine(f"sqlite:///{db_path}")
 
 # Reflect an existing database into a new model
 Base = automap_base()
@@ -116,4 +117,5 @@ def temperature_range(start, end=None):
 
 # Run the Flask app
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
+
